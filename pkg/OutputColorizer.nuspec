@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>OutputColorizer</id>
+        <version>1.0</version>
+        <authors>Alex Ghiondea</authors>
+        <owners>Alex Ghiondea</owners>
+        <copyright>Alex Ghiondea (c) 2015</copyright>
+        <licenseUrl>https://raw.githubusercontent.com/AlexGhiondea/OutputColorizer/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/AlexGhiondea/OutputColorizer</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <title>Output Colorizer</title>
+        <description>Write colorful messages to the console using simple to use syntax</description>
+        <tags>Console, Color, Print, Write, WriteLine, Output, Colorizer</tags>
+    </metadata>
+    <files>
+        <file src="OutputColorizer.dll" target="lib\net45" />
+    </files>
+</package>
