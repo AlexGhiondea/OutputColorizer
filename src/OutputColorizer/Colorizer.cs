@@ -29,9 +29,8 @@ namespace OutputColorizer
         {
             Stack<ConsoleColor> colors = new Stack<ConsoleColor>();
             Stack<int> parens = new Stack<int>();
-
+            int unbalancedParens = 0;
             // intial state
-            colors.Push(s_printer.ForegroundColor);
             parens.Push(-1);
 
             for (int i = 0; i < message.Length; i++)
@@ -70,6 +69,7 @@ namespace OutputColorizer
                             ParseColor(message, colors, ref i);
 
                             // keep track of the latest parens that you saw
+                            unbalancedParens++;
                             parens.Push(i);
 
                             continue;
@@ -88,16 +88,26 @@ namespace OutputColorizer
                                 s_printer.Write(content);
                             }
 
+                            if (colors.Count == 0)
+                            {
+                                throw new FormatException($"Missing expected ']' ");
+                            }
                             s_printer.ForegroundColor = colors.Pop();
 
                             parens.Push(i);
+                            unbalancedParens--;
                             continue;
                         }
                 }
             }
 
+            // at this point, the closing bracket might not have been found!
+            if (unbalancedParens != 0)
+            {
+                throw new FormatException($"Missing expected ']' ");
+            }
+
             // write the last part, if any
-            s_printer.ForegroundColor = colors.Pop();
             int finalParen = parens.Pop();
             if (message.Length - finalParen - 1 > 0)
             {

@@ -19,5 +19,19 @@ namespace UnitTests
         {
             Colorizer.WriteLine("{[foo!Foo]}");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest3()
+        {
+            Colorizer.WriteLine("[Green!Test");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest4()
+        {
+            Colorizer.WriteLine("[Green!Test]]");
+        }
     }
 }
