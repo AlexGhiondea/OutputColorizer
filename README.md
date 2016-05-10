@@ -16,7 +16,7 @@ Colorizer.WriteLine("[<color>!<text>]");
 // Simple pattern
 Colorizer.WriteLine("[Green!Hello world!]"); 
 // You can nest colors
-Colorizer.WriteLine("[Green!Green. And [Yellow!Yellow] then green."); 
+Colorizer.WriteLine("[Green!Green. And [Yellow!Yellow] then green.]"); 
 // You can use parameters
 Colorizer.WriteLine("[Green!Hello {0}]", "world"); 
 // And can use them without restriction
