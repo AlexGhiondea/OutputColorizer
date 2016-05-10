@@ -33,6 +33,7 @@ namespace OutputColorizer
             // intial state
             parens.Push(-1);
 
+            Dictionary<string, int> argMap = CreateArgumentMap(message);
             for (int i = 0; i < message.Length; i++)
             {
                 char currentChar = message[i];
@@ -61,7 +62,7 @@ namespace OutputColorizer
                             // do we have anything to print?
                             if (i - temp - 1 > 0)
                             {
-                                string content = RewriteString(message.Substring(temp + 1, i - temp - 1), args);
+                                string content = RewriteString(argMap, message.Substring(temp + 1, i - temp - 1), args);
                                 s_printer.Write(content);
                             }
 
@@ -84,7 +85,7 @@ namespace OutputColorizer
                                 //retrieve the content from the message
                                 string content = message.Substring(matchingbracket + 1, i - matchingbracket - 1);
 
-                                content = RewriteString(content, args);
+                                content = RewriteString(argMap, content, args);
                                 s_printer.Write(content);
                             }
 
@@ -111,7 +112,7 @@ namespace OutputColorizer
             int finalParen = parens.Pop();
             if (message.Length - finalParen - 1 > 0)
             {
-                string finalContent = RewriteString(message.Substring(finalParen + 1, message.Length - finalParen - 1), args);
+                string finalContent = RewriteString(argMap, message.Substring(finalParen + 1, message.Length - finalParen - 1), args);
 
                 s_printer.Write(finalContent);
             }
@@ -142,7 +143,7 @@ namespace OutputColorizer
             }
         }
 
-        private static string RewriteString(string content, params object[] args)
+        private static string RewriteString(Dictionary<string, int> argMap, string content, params object[] args)
         {
             // one way to do this is to map the original index to the new index in the args array.
             // {3} {0} {0} ==> {0} {1} {1}
@@ -154,7 +155,7 @@ namespace OutputColorizer
             // rewrite the string based on this map
             // generate the args array based on this map
 
-            Dictionary<string, int> argMap = CreateArgumentMap(content);
+            //            Dictionary<string, int> argMap = CreateArgumentMap(content);
 
             StringBuilder sb = new StringBuilder();
             int textLength = content.Length;
@@ -244,6 +245,12 @@ namespace OutputColorizer
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
 
                     string arg = content.Substring(i + 1, pos - i - 2);
+
+                    int x;
+                    if (!int.TryParse(arg,out x))
+                    {
+                        throw new ArgumentException(string.Format("Could not parse '{0}'", content));
+                    }
 
                     if (!map.ContainsKey(arg))
                     {
