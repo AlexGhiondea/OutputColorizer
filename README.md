@@ -22,5 +22,5 @@ Colorizer.WriteLine("[Green!Hello {0}]", "world");
 // And can use them without restriction
 Colorizer.WriteLine("[Green!Hello {1}, this is [Yellow!{0}]]", "me", "world"); 
 // And you can use string interpolation
-Colorizer.WriteLine("[{ConsoleColor.Green}!Hello {1}, this is [Yellow!{0}]]", "me", "world"); 
+Colorizer.WriteLine($"[{ConsoleColor.Green}!Hello {1}, this is [Yellow!{0}]]", "me", "world"); 
 ```
