@@ -6,9 +6,10 @@ Colorize your output with this simple to use and extensible library
 Colorizer.WriteLine("[<color>!<text>]");
 ```
 - The segment that should be colored with a given color is included in `[` and `]`. 
-- The color is specified immediately after the `[` up to the `!` character.
+- The color is specified immediately after the `[` and up to the `!` character.
 - After the `!` character is the text to rended in that color
 - `{0}` syntax for parameters is supported
+- Segments can be nested together for greater flexibility
 
 ## Examples
 ```csharp
