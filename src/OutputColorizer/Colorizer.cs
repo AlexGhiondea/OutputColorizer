@@ -44,7 +44,7 @@ namespace OutputColorizer
                         {
                             // we need to check if we have an escaped [ at this point.
                             // if we do, go on, this will be covered by the rewriteString.
-                            if (i + 1 < message.Length && (message[i + 1] == '[' || message[i + 1] == ']'))
+                            if (i + 1 < message.Length)
                             {
                                 i++;
                                 continue;
@@ -109,8 +109,9 @@ namespace OutputColorizer
 
         private static void ParseColor(string message, Stack<ConsoleColor> colors, ref int currPos)
         {
+            int textLength = message.Length;
             // find the color
-            for (int pos = currPos + 1; pos < message.Length; pos++)
+            for (int pos = currPos + 1; pos < textLength; pos++)
             {
                 if (message[pos] == '!')
                 {
@@ -143,15 +144,94 @@ namespace OutputColorizer
             // rewrite the string based on this map
             // generate the args array based on this map
 
+            Dictionary<string, int> argMap = CreateArgumentMap(content);
+
+            StringBuilder sb = new StringBuilder();
+            int textLength = content.Length;
+            for (int pos = 0; pos < textLength; pos++)
+            {
+                if (content[pos] == '}')
+                {
+                    // '}' are escaped as '}}'
+                    if (pos + 1 < textLength && content[pos + 1] == '}')
+                    {
+                        sb.Append('}'); sb.Append('}');
+                        pos++;
+                        continue;
+                    }
+                }
+                if (content[pos] == '{')
+                {
+                    // '{' are escaped as '{{'
+                    if (pos + 1 < textLength && content[pos + 1] == '{')
+                    {
+                        sb.Append('{'); sb.Append('{');
+                        pos++;
+                        continue;
+                    }
+
+                    int temp = pos;
+                    while (temp < textLength && content[temp++] != '}')
+                    {
+                    }
+
+                    string arg = content.Substring(pos + 1, temp - pos - 2);
+                    sb.Append('{');
+                    sb.Append(argMap[arg]);
+                    sb.Append('}');
+
+                    pos = temp - 1;
+                    continue;
+                }
+                else if ((pos + 1 < textLength && content[pos] == '\\') &&
+                    (content[pos + 1] == '[' || content[pos + 1] == ']'))
+                {
+                    // get rid of the escaped [ and ] as those are ok in regular strings
+                    pos++;
+                }
+
+                // passthrough the content
+                sb.Append(content[pos]);
+            }
+
+            //create the array.
+            object[] argument = new object[argMap.Count];
+
+            int argidx = 0;
+            foreach (var item in argMap.Keys)
+            {
+                int argOrig = int.Parse(item);
+                argument[argidx++] = args[argOrig];
+            }
+
+            return string.Format(sb.ToString(), argument);
+        }
+
+        private static Dictionary<string, int> CreateArgumentMap(string content)
+        {
             Dictionary<string, int> map = new Dictionary<string, int>();
 
             int argCount = 0;
-            for (int i = 0; i < content.Length; i++)
+            int textLength = content.Length;
+            for (int i = 0; i < textLength; i++)
             {
                 if (content[i] == '{')
                 {
+                    // '{' are escaped as '{{'
+                    if (i + 1 < textLength && content[i + 1] == '{')
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    // find the matching closing curly bracket
                     int pos = i;
-                    while (content[pos++] != '}') ;
+                    while (pos < textLength && content[pos++] != '}')
+                    {
+                    }
+
+                    if (content[pos - 1] != '}') // did not find matching '}'
+                        throw new ArgumentException(string.Format("Could not parse '{0}'", content));
 
                     string arg = content.Substring(i + 1, pos - i - 2);
 
@@ -162,44 +242,7 @@ namespace OutputColorizer
                 }
             }
 
-            StringBuilder sb = new StringBuilder();
-            for (int pos = 0; pos < content.Length; pos++)
-            {
-                if (content[pos] == '{')
-                {
-                    int temp = pos;
-                    while (content[temp++] != '}') ;
-
-                    string arg = content.Substring(pos + 1, temp - pos - 2);
-                    sb.Append("{");
-                    sb.Append(map[arg]);
-                    sb.Append("}");
-
-                    pos = temp - 1;
-                }
-                else if (pos + 1 < content.Length && (content[pos] == '\\' && content[pos + 1] == '[' || content[pos + 1] == ']'))
-                {
-                    // get rid of the escaped [ and ] as those are ok in regular strings
-                    pos++;
-                    sb.Append(content[pos]);
-                }
-                else
-                {
-                    sb.Append(content[pos]);
-                }
-            }
-
-            //create the array.
-            object[] argument = new object[map.Count];
-
-            int argidx = 0;
-            foreach (var item in map.Keys)
-            {
-                int argOrig = int.Parse(item);
-                argument[argidx++] = args[argOrig];
-            }
-
-            return string.Format(sb.ToString(), argument);
+            return map;
         }
 
         public static void SetupWriter(IOutputWriter newWriter)

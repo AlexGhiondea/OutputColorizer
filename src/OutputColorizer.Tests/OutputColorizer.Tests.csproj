@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Colorizer.Profiling.Tests.cs" />
     <Compile Include="Colorizer.Tests.cs" />
     <Compile Include="Colorizer.Basic.Tests.cs" />
     <Compile Include="Colorizer.ErrorValidation.Tests.cs" />

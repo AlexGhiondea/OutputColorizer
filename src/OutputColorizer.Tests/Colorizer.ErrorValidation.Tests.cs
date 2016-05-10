@@ -12,5 +12,12 @@ namespace UnitTests
         {
             Colorizer.WriteLine("[foo!Foo]");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ErrorValidationTest2()
+        {
+            Colorizer.WriteLine("{[foo!Foo]}");
+        }
     }
 }
