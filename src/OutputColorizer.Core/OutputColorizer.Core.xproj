@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <CLIPath>$(MSBuildThisFileDirectory)..\..\tools\dotnetcli\dotnet.exe</CLIPath>
+    <ProjectJson>$(MSBuildThisFileDirectory)project.json</ProjectJson>
+    <LockFile>$(MSBuildThisFileDirectory)project.lock.json</LockFile>
+    <OutputLocation>$(MSBuildThisFileDirectory)..\..\bin\Release\Core</OutputLocation>
+  </PropertyGroup>
+  <Target Name="Build" DependsOnTargets="Restore">
+    <Exec Command="$(CLIPath) build $(ProjectJson) -o $(OutputLocation) -f netstandard1.5" />
+  </Target>
+
+  <Target Name="Restore">
+    <Exec Command="$(CLIPath) restore $(ProjectJson)" />
+    <Error Condition="!Exists('$(LockFile)')" Message="Error when running the restore." />
+  </Target>
+</Project>

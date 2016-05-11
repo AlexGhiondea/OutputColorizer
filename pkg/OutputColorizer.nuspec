@@ -15,5 +15,6 @@
     </metadata>
     <files>
         <file src="net45\OutputColorizer.dll" target="lib\net45" />
+        <file src="Core\OutputColorizer.dll" target="lib\netstandard1.5" />
     </files>
 </package>
