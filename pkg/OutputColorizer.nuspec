@@ -14,6 +14,6 @@
         <tags>Console, Color, Print, Write, WriteLine, Output, Colorizer</tags>
     </metadata>
     <files>
-        <file src="OutputColorizer.dll" target="lib\net45" />
+        <file src="net45\OutputColorizer.dll" target="lib\net45" />
     </files>
 </package>
