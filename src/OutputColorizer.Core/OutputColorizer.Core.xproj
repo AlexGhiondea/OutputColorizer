@@ -19,7 +19,7 @@
     <Exec Command="$(CLIPath) build $(ProjectJson) -o $(OutputLocation) -f netstandard1.5" />
   </Target>
   <Target Name="Restore">
-    <Error Condition="!Exists('$(CLIPath)')" Text="The cli is required to build this project. Please run downloaddotnet.cmd command from the root of the repo to get it, and then build the solution again." />
+    <Error Condition="!Exists('$(CLIPath)')" Text="The cli is required to build this project. Please run init-tools.cmd command from the root of the repo to get it, and then build the solution again." />
     <Exec Command="$(CLIPath) restore $(ProjectJson)" />
     <Error Condition="!Exists('$(LockFile)')" Text="Error when running the restore." />
   </Target>
