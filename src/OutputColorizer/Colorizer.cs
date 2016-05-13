@@ -25,6 +25,11 @@ namespace OutputColorizer
             InternalWrite(message, args);
         }
 
+        public static void SetupWriter(IOutputWriter newWriter)
+        {
+            s_printer = newWriter;
+        }
+
         private static void InternalWrite(string message, object[] args)
         {
             Stack<ConsoleColor> colors = new Stack<ConsoleColor>();
@@ -260,11 +265,6 @@ namespace OutputColorizer
             }
 
             return map;
-        }
-
-        public static void SetupWriter(IOutputWriter newWriter)
-        {
-            s_printer = newWriter;
         }
     }
 }
