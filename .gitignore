@@ -10,6 +10,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# DotNet CLI should not be tracked as it's generated.
+/[Tt]ools
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

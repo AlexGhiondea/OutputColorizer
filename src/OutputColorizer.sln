@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutputColorizer", "OutputCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutputColorizer.Tests", "OutputColorizer.Tests\OutputColorizer.Tests.csproj", "{FD063BA8-7B01-42F4-B860-762C392DDB3D}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OutputColorizer.Core", "OutputColorizer.Core\OutputColorizer.Core.xproj", "{C86FC95F-B3E1-4175-B669-346C1702CDAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FD063BA8-7B01-42F4-B860-762C392DDB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD063BA8-7B01-42F4-B860-762C392DDB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD063BA8-7B01-42F4-B860-762C392DDB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C86FC95F-B3E1-4175-B669-346C1702CDAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C86FC95F-B3E1-4175-B669-346C1702CDAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C86FC95F-B3E1-4175-B669-346C1702CDAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C86FC95F-B3E1-4175-B669-346C1702CDAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
