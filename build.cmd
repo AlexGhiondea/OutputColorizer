@@ -50,7 +50,8 @@ goto :eof
 :: Package the output
 
 echo Packaging files
-call %~dp0\Tools\Nuget.exe pack %~dp0\pkg\OutputColorizer.nuspec -BasePath %~dp0\bin\release -OutputDirectory %~dp0\bin\
+if not exist "%~dp0\bin\package\" mkdir "%~dp0\bin\package\"
+call %~dp0\Tools\Nuget.exe pack %~dp0\pkg\OutputColorizer.nuspec -BasePath %~dp0\bin\release -OutputDirectory %~dp0\bin\package\
 echo.
 :: Pull the build summary from the log file
 findstr /ir /c:".*Warning(s)" /c:".*Error(s)" /c:"Time Elapsed.*" "%_buildlog%"
