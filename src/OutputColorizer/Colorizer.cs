@@ -8,6 +8,20 @@ namespace OutputColorizer
     {
         private static IOutputWriter s_printer = new ConsoleWriter();
 
+        private static Dictionary<string, ConsoleColor> s_consoleColorMap = InitializeColors();
+
+        private static Dictionary<string, ConsoleColor> InitializeColors()
+        {
+            Dictionary<string, ConsoleColor> map = new Dictionary<string, ConsoleColor>(StringComparer.OrdinalIgnoreCase);
+            foreach (ConsoleColor item in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                // we do this to allow not explicitly matching the console color values
+                // and to not have to parse the color every single time
+                map.Add(item.ToString(), item);
+            }
+            return map;
+        }
+
         /// <summary>
         /// The format is like this: [Color!text{params}]. Nesting is allowed
         /// </summary>
@@ -133,7 +147,8 @@ namespace OutputColorizer
                 {
                     string colorString = message.Substring(currPos + 1, pos - currPos - 1);
                     ConsoleColor color;
-                    if (!Enum.TryParse(colorString, out color))
+
+                    if (!s_consoleColorMap.TryGetValue(colorString, out color))
                     {
                         throw new ArgumentException($"Unknown color {colorString}");
                     }
@@ -252,7 +267,7 @@ namespace OutputColorizer
                     string arg = content.Substring(i + 1, pos - i - 2);
 
                     int x;
-                    if (!int.TryParse(arg,out x))
+                    if (!int.TryParse(arg, out x))
                     {
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
                     }
