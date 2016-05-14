@@ -183,7 +183,7 @@ namespace OutputColorizer
                 if (content[pos] == '{')
                 {
                     // '{' are escaped as '{{'
-                    if (pos + 1 < textLength && content[pos + 1] == '{')
+                    if (content[pos + 1] == '{')
                     {
                         sb.Append('{'); sb.Append('{');
                         pos++;
@@ -191,7 +191,7 @@ namespace OutputColorizer
                     }
 
                     int temp = pos;
-                    while (temp < textLength && content[temp++] != '}')
+                    while (content[temp++] != '}')
                     {
                     }
 

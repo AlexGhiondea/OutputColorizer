@@ -72,5 +72,34 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, "[Foo]"),
                 new TextAndColor(ConsoleColor.Black, "}"));
         }
+
+
+        [TestMethod]
+        public void EscapingTest8()
+        {
+            Colorizer.WriteLine("\"[Green!Foo]\"");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "\""),
+                new TextAndColor(ConsoleColor.Green, "Foo"),
+                new TextAndColor(ConsoleColor.Black, "\""));
+        }
+
+        [TestMethod]
+        public void EscapingTest9()
+        {
+            Colorizer.WriteLine("}}[Green!Foo]{{");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "}"),
+                new TextAndColor(ConsoleColor.Green, "Foo"),
+                new TextAndColor(ConsoleColor.Black, "{"));
+        }
+
+        [TestMethod]
+        public void EscapingTest10()
+        {
+            Colorizer.WriteLine("{{}}");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "{}"));
+        }
     }
 }
