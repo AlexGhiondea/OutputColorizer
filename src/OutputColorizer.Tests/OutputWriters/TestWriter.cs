@@ -34,6 +34,11 @@ namespace UnitTests
             if (text != string.Empty)
                 Segments.Add(new TextAndColor(_currentColor, text));
         }
+
+        public void Reset()
+        {
+            Segments.Clear();
+        }
     }
 
     class TextAndColor

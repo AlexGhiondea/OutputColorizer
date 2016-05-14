@@ -8,6 +8,20 @@ namespace OutputColorizer
     {
         private static IOutputWriter s_printer = new ConsoleWriter();
 
+        private static Dictionary<string, ConsoleColor> s_consoleColorMap = InitializeColors();
+
+        private static Dictionary<string, ConsoleColor> InitializeColors()
+        {
+            Dictionary<string, ConsoleColor> map = new Dictionary<string, ConsoleColor>(StringComparer.OrdinalIgnoreCase);
+            foreach (ConsoleColor item in Enum.GetValues(typeof(ConsoleColor)))
+            {
+                // we do this to allow not explicitly matching the console color values
+                // and to not have to parse the color every single time
+                map.Add(item.ToString(), item);
+            }
+            return map;
+        }
+
         /// <summary>
         /// The format is like this: [Color!text{params}]. Nesting is allowed
         /// </summary>
@@ -23,6 +37,11 @@ namespace OutputColorizer
         public static void Write(string message, params object[] args)
         {
             InternalWrite(message, args);
+        }
+
+        public static void SetupWriter(IOutputWriter newWriter)
+        {
+            s_printer = newWriter;
         }
 
         private static void InternalWrite(string message, object[] args)
@@ -42,14 +61,9 @@ namespace OutputColorizer
                 {
                     case '\\':
                         {
-                            // we need to check if we have an escaped [ at this point.
-                            // if we do, go on, this will be covered by the rewriteString.
-                            if (i + 1 < message.Length)
-                            {
-                                i++;
-                                continue;
-                            }
-                            break;
+                            // if we have an escaped character, continue.
+                            i++;
+                            continue;
                         }
                     case '[':
                         {
@@ -57,14 +71,9 @@ namespace OutputColorizer
                             // so we need to write what we had up to this point.
 
                             // pop the location of the last paren from the stack
-                            int temp = parens.Pop();
-
-                            // do we have anything to print?
-                            if (i - temp - 1 > 0)
-                            {
-                                string content = RewriteString(argMap, message.Substring(temp + 1, i - temp - 1), args);
-                                s_printer.Write(content);
-                            }
+                            // Write the message segment between the last paren and the current position
+                            int previousParenIndex = parens.Pop();
+                            WriteMessageSegment(message, args, argMap, previousParenIndex, i);
 
                             // Given a string that looks like [color! extracts the color and pushes it on the stack of colors
                             ParseColor(message, colors, ref i);
@@ -78,16 +87,9 @@ namespace OutputColorizer
                     case ']':
                         {
                             // at this point, we know where the color ended.
+                            // Write the message segment between the last paren and the current position
                             int matchingbracket = parens.Pop();
-
-                            if (i - matchingbracket - 1 > 0)
-                            {
-                                //retrieve the content from the message
-                                string content = message.Substring(matchingbracket + 1, i - matchingbracket - 1);
-
-                                content = RewriteString(argMap, content, args);
-                                s_printer.Write(content);
-                            }
+                            WriteMessageSegment(message, args, argMap, matchingbracket, i);
 
                             if (colors.Count == 0)
                             {
@@ -110,11 +112,17 @@ namespace OutputColorizer
 
             // write the last part, if any
             int finalParen = parens.Pop();
-            if (message.Length - finalParen - 1 > 0)
-            {
-                string finalContent = RewriteString(argMap, message.Substring(finalParen + 1, message.Length - finalParen - 1), args);
+            WriteMessageSegment(message, args, argMap, finalParen, message.Length);
+        }
 
-                s_printer.Write(finalContent);
+        private static void WriteMessageSegment(string message, object[] args, Dictionary<string, int> argMap, int startIndex, int currentIndex)
+        {
+            // do we have anything to print?
+            if (currentIndex - startIndex - 1 > 0)
+            {
+                string messageSegment = message.Substring(startIndex + 1, currentIndex - startIndex - 1);
+                string content = RewriteString(argMap, messageSegment, args);
+                s_printer.Write(content);
             }
         }
 
@@ -128,7 +136,8 @@ namespace OutputColorizer
                 {
                     string colorString = message.Substring(currPos + 1, pos - currPos - 1);
                     ConsoleColor color;
-                    if (!Enum.TryParse(colorString, out color))
+
+                    if (!s_consoleColorMap.TryGetValue(colorString, out color))
                     {
                         throw new ArgumentException($"Unknown color {colorString}");
                     }
@@ -247,7 +256,7 @@ namespace OutputColorizer
                     string arg = content.Substring(i + 1, pos - i - 2);
 
                     int x;
-                    if (!int.TryParse(arg,out x))
+                    if (!int.TryParse(arg, out x))
                     {
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
                     }
@@ -260,11 +269,6 @@ namespace OutputColorizer
             }
 
             return map;
-        }
-
-        public static void SetupWriter(IOutputWriter newWriter)
-        {
-            s_printer = newWriter;
         }
     }
 }
