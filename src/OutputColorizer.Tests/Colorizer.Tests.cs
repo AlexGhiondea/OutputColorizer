@@ -15,14 +15,14 @@ namespace UnitTests
             _printer = new TestWriter();
             Colorizer.SetupWriter(_printer);
         }
-        
+
         private void Validate(params TextAndColor[] values)
         {
-            Debug.Assert(values.Length == _printer.Segments.Count);
+            Assert.AreEqual(values.Length, _printer.Segments.Count);
 
             for (int i = 0; i < values.Length; i++)
             {
-                Debug.Assert(values[i].Equals(_printer.Segments[i]),
+                Assert.IsTrue(values[i].Equals(_printer.Segments[i]),
                     string.Format("Expected Text={0}, Color={1}, Got {2}", values[i].Text, values[i].Color, _printer.Segments[i]));
             }
         }
