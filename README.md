@@ -1,6 +1,9 @@
 # Output Colorizer
 Colorize your output with this simple to use and extensible library
 
+## Download
+This is available as a [Nuget package](https://www.nuget.org/packages/OutputColorizer/) and you can use it in your Desktop for .NET Core application.
+
 ## Syntax
 ```csharp
 Colorizer.WriteLine("[<color>!<text>]");
