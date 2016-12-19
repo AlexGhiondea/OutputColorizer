@@ -54,5 +54,47 @@ namespace UnitTests
         {
             Colorizer.WriteLine("{");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest8()
+        {
+            Colorizer.WriteLine("[Yellow!{1}]", "test");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest9()
+        {
+            Colorizer.WriteLine("[Yellow!{0}]");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest10()
+        {
+            Colorizer.WriteLine("[Yellow!{0}] {1}", "a");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest11()
+        {
+            Colorizer.WriteLine("[Yellow!{1}] {0}", "a");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void ErrorValidationTest12()
+        {
+            Colorizer.WriteLine("[Yellow!{-1}]");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ErrorValidationTest13()
+        {
+            Colorizer.WriteLine("[Yellow!{a}]");
+        }
     }
 }

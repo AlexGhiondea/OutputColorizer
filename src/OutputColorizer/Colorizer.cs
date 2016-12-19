@@ -221,6 +221,13 @@ namespace OutputColorizer
             foreach (var item in argMap.Keys)
             {
                 int argOrig = int.Parse(item);
+
+                // if the original argument index points outside of the array, we should give an error
+                if (argOrig < 0 || argOrig >= args.Length)
+                {
+                    throw new FormatException($"Invalid string format. Parameter at position {argOrig} could not be found in the argument array.");
+                }
+
                 argument[argidx++] = args[argOrig];
             }
 
