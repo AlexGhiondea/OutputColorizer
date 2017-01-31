@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [TestMethod]
+        [Fact]
         public void ColorTest1()
         {
             // Make sure we can actually parse all the console colors
@@ -18,7 +18,7 @@ namespace UnitTests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ColorTest2()
         {
             // Make sure we can actually parse all the console colors
