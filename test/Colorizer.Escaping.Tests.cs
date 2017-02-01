@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [TestMethod]
+        [Fact]
         public void EscapingTest1()
         {
             Colorizer.WriteLine("\\[[Green!Foo]\\]");
@@ -16,7 +16,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "]"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest2()
         {
             Colorizer.WriteLine("[Green!\\[Foo\\]]");
@@ -24,7 +24,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Green, "[Foo]"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest3()
         {
             Colorizer.WriteLine("\\[[Green!Foo\\]]");
@@ -33,7 +33,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, "Foo]"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest4()
         {
             Colorizer.WriteLine("\\[[Green!\\[Foo\\]]\\]");
@@ -43,7 +43,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "]"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest5()
         {
             Colorizer.WriteLine("\\ [Green!\\[Foo\\]]\\");
@@ -53,7 +53,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "\\"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest6()
         {
             Colorizer.WriteLine("\\\\[Green!\\[Foo\\]]\\");
@@ -63,7 +63,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "\\"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest7()
         {
             Colorizer.WriteLine("{{[Green!\\[Foo\\]]}}");
@@ -74,7 +74,7 @@ namespace UnitTests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest8()
         {
             Colorizer.WriteLine("\"[Green!Foo]\"");
@@ -84,7 +84,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "\""));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest9()
         {
             Colorizer.WriteLine("}}[Green!Foo]{{");
@@ -94,7 +94,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, "{"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest10()
         {
             Colorizer.WriteLine("{{}}");
@@ -102,7 +102,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Black, "{}"));
         }
 
-        [TestMethod]
+        [Fact]
         public void EscapingTest11()
         {
             Colorizer.WriteLine("[Yellow!{0}]", "[Serializable]");

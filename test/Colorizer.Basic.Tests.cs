@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [TestMethod]
+        [Fact]
         public void BasicTest()
         {
             Colorizer.WriteLine("[Red!Foo]");
@@ -14,7 +14,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Red, "Foo"));
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicTest2()
         {
             Colorizer.WriteLine("[Red!Foo] [Blue!Bar]");
@@ -24,7 +24,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Blue, "Bar"));
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicTest3()
         {
             Colorizer.WriteLine("Test");
@@ -32,7 +32,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Black, "Test"));
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicTest4()
         {
             Colorizer.WriteLine("Test [Green!Foo]");
@@ -41,7 +41,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, "Foo"));
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicTest5()
         {
             Colorizer.WriteLine("[Green!Foo] Test");
@@ -50,7 +50,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, " Test"));
         }
 
-        [TestMethod]
+        [Fact]
         public void BasicTest6()
         {
             Colorizer.Write("[Green!Foo] Test");

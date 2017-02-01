@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [TestMethod]
+        [Fact]
         public void NestedTest1()
         {
             Colorizer.WriteLine("[Green!Foo [Red!Bar]]");
@@ -15,7 +15,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Red, "Bar"));
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedTest2()
         {
             Colorizer.WriteLine("[Green!Foo [Red!Bar] Baz]");
@@ -25,7 +25,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, " Baz"));
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedTest3()
         {
             Colorizer.WriteLine("[Green!Foo [Red!Bar] [Yellow!Foo] Baz]");
@@ -37,7 +37,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, " Baz"));
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedTest4()
         {
             Colorizer.WriteLine("[Green!Foo[Red!Bar [Yellow!Foo]] Baz]");
@@ -48,7 +48,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, " Baz"));
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedTest5()
         {
             Colorizer.WriteLine("[Green![Yellow!Foo]]");
@@ -56,7 +56,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Yellow, "Foo"));
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedTest6()
         {
             Colorizer.WriteLine("[Green![Yellow![Red!Foo]]]");
