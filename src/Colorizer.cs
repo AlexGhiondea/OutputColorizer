@@ -52,10 +52,12 @@ namespace OutputColorizer
             // intial state
             parens.Push(-1);
 
+            ReadOnlySpan<char> messageAsSpan = message.AsSpan();
+
             Dictionary<string, int> argMap = CreateArgumentMap(message);
-            for (int i = 0; i < message.Length; i++)
+            for (int i = 0; i < messageAsSpan.Length; i++)
             {
-                char currentChar = message[i];
+                char currentChar = messageAsSpan[i];
 
                 switch (currentChar)
                 {
@@ -76,7 +78,7 @@ namespace OutputColorizer
                             WriteMessageSegment(message, args, argMap, previousParenIndex, i);
 
                             // Given a string that looks like [color! extracts the color and pushes it on the stack of colors
-                            ParseColor(message, colors, ref i);
+                            ParseColor(message.AsSpan(), colors, ref i);
 
                             // keep track of the latest parens that you saw
                             unbalancedParens++;
@@ -126,7 +128,18 @@ namespace OutputColorizer
             }
         }
 
-        private static void ParseColor(string message, Stack<ConsoleColor> colors, ref int currPos)
+        private static void WriteMessageSegment(ReadOnlySpan<char> message, object[] args, Dictionary<string, int> argMap, int startIndex, int currentIndex)
+        {
+            // do we have anything to print?
+            if (currentIndex - startIndex - 1 > 0)
+            {
+                ReadOnlySpan<char> messageSegment = message.Slice(startIndex + 1, currentIndex - startIndex - 1);
+               // ReadOnlySpan<char> content = RewriteString(argMap, "TODO", args);
+                //s_printer.Write(content);
+            }
+        }
+
+        private static void ParseColor(ReadOnlySpan<char> message, Stack<ConsoleColor> colors, ref int currPos)
         {
             int textLength = message.Length;
             // find the color
@@ -134,7 +147,14 @@ namespace OutputColorizer
             {
                 if (message[pos] == '!')
                 {
-                    string colorString = message.Substring(currPos + 1, pos - currPos - 1);
+                    // We still need to convert this to a string because we need to store this in the 
+                    // dictionary for colors.
+                    Console.WriteLine($"{currPos}, {pos}");
+                    //TODO: investigate what is wrong here!!!
+
+                    var str = message.Slice(currPos + 1, pos - currPos - 1).ToString();
+                    string colorString =  "HERE";
+                    Console.WriteLine(colorString);
                     ConsoleColor color;
 
                     if (!s_consoleColorMap.TryGetValue(colorString, out color))
@@ -165,6 +185,9 @@ namespace OutputColorizer
             // generate the args array based on this map
 
             //            Dictionary<string, int> argMap = CreateArgumentMap(content);
+
+            // We can optimize for the case where we have <=9 arguments because for those
+            // we can change the index in the same string
 
             StringBuilder sb = new StringBuilder();
             int textLength = content.Length;
@@ -260,6 +283,7 @@ namespace OutputColorizer
                     if (content[pos - 1] != '}') // did not find matching '}'
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
 
+                    //TODO: this could use the parsing APIs in netcoreapp2.0
                     string arg = content.Substring(i + 1, pos - i - 2);
 
                     int x;

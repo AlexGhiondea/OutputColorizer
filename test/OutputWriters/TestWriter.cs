@@ -35,6 +35,18 @@ namespace UnitTests
                 Segments.Add(new TextAndColor(_currentColor, text));
         }
 
+        public void Write(ReadOnlySpan<char> text)
+        {
+            if (text.Length!=0)
+                Segments.Add(new TextAndColor(_currentColor, text.ToString()));
+        }
+
+        public void WriteLine(ReadOnlySpan<char> text)
+        {
+            if (text.Length!=0)
+                Segments.Add(new TextAndColor(_currentColor, text.ToString()));
+        }
+
         public void Reset()
         {
             Segments.Clear();

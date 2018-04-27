@@ -4,8 +4,13 @@
 
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFrameworks>netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.4.0-preview1-25305-02"/>
+  </ItemGroup>
+
   <PropertyGroup Condition="Exists('c:\Windows')">
       <TargetFrameworks>$(TargetFrameworks);net45</TargetFrameworks>  
   </PropertyGroup>
