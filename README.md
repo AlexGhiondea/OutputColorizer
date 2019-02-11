@@ -1,6 +1,7 @@
 # Output Colorizer
 
-[![NuGet version](https://badge.fury.io/nu/OutputColorizer.svg)](https://badge.fury.io/nu/OutputColorizer)
+[![NuGet version](https://img.shields.io/nuget/v/OutputColorizer.svg?style=flat)](https://img.shields.io/nuget/v/OutputColorizer.svg?style=flat)
+[![Nuget downloads](https://img.shields.io/nuget/dt/OutputColorizer.svg?style=flat)](https://img.shields.io/nuget/dt/OutputColorizer.svg?style=flat)
 [![Build status](https://ci.appveyor.com/api/projects/status/github/AlexGhiondea/OutputColorizer?branch=master&svg=true)](https://ci.appveyor.com/project/AlexGhiondea/OutputColorizer)
 [![codecov](https://codecov.io/gh/AlexGhiondea/OutputColorizer/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexGhiondea/OutputColorizer)
 [![MIT License](https://img.shields.io/github/license/AlexGhiondea/OutputColorizer.svg)](https://github.com/AlexGhiondea/OutputColorizer/blob/master/LICENSE)
