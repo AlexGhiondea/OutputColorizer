@@ -1,84 +1,84 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [Fact]
+        [Test]
         public void ErrorValidationTest1()
         {
             Assert.Throws<ArgumentException>(() => Colorizer.WriteLine("[foo!Foo]"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest2()
         {
             Assert.Throws<ArgumentException>(() => Colorizer.WriteLine("{[foo!Foo]}"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest3()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Green!Test"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest4()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Green!Test]]"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest5()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("}"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest6()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("}}}"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest7()
         {
             Assert.Throws<ArgumentException>(() => Colorizer.WriteLine("{"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest8()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Yellow!{1}]", "test"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest9()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Yellow!{0}]"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest10()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Yellow!{0}] {1}", "a"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest11()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Yellow!{1}] {0}", "a"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest12()
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[Yellow!{-1}]"));
         }
 
-        [Fact]
+        [Test]
         public void ErrorValidationTest13()
         {
             Assert.Throws<ArgumentException>(() => Colorizer.WriteLine("[Yellow!{a}]"));

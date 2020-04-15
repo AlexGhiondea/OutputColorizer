@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NUnit.Framework;
 using System.Diagnostics;
 using OutputColorizer;
 
@@ -8,15 +8,16 @@ namespace UnitTests
     {
         static TestWriter _printer;
 
-        public ColorizerTests()
+        [SetUp]
+        public void Setup()
         {
             _printer = new TestWriter();
             Colorizer.SetupWriter(_printer);
         }
-        
+
         private void Validate(params TextAndColor[] values)
         {
-            Assert.Equal(values.Length, _printer.Segments.Count);
+            Assert.AreEqual(values.Length, _printer.Segments.Count);
 
             for (int i = 0; i < values.Length; i++)
             {
