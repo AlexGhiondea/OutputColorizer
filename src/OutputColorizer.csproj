@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFrameworks>netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard2.0</TargetFrameworks>
     <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="Exists('c:\Windows')">
@@ -16,6 +16,14 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.3|AnyCPU'">
+    <OutputPath>..\bin\Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <OutputPath>..\bin\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
     <OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
 
