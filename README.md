@@ -2,7 +2,7 @@
 
 [![NuGet version](https://img.shields.io/nuget/v/OutputColorizer.svg?style=flat)](https://www.nuget.org/packages/OutputColorizer)
 [![Nuget downloads](https://img.shields.io/nuget/dt/OutputColorizer.svg?style=flat)](https://www.nuget.org/packages/OutputColorizer)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/AlexGhiondea/OutputColorizer?branch=master&svg=true)](https://ci.appveyor.com/project/AlexGhiondea/OutputColorizer)
+![Build Status](https://github.com/AlexGhiondea/OutputColorizer/workflows/.NET%20Core/badge.svg)
 [![codecov](https://codecov.io/gh/AlexGhiondea/OutputColorizer/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexGhiondea/OutputColorizer)
 [![MIT License](https://img.shields.io/github/license/AlexGhiondea/OutputColorizer.svg)](https://github.com/AlexGhiondea/OutputColorizer/blob/master/LICENSE)
 ========
