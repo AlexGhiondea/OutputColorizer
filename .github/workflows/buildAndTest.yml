@@ -27,6 +27,7 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1
       with:
         args: install opencover.portable
+    - name: Run the code coverage tool
       run: OpenCover.Console.exe
     - uses: codecov/codecov-action@v1
       with:
