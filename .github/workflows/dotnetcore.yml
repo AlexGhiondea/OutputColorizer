@@ -25,7 +25,5 @@ jobs:
       run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory:testResults
     - uses: codecov/codecov-action@v1
       with:
-        file: testResults/**/coverage.cobertura.xml # optional
-        flags: unittests # optional
-        name: outputcolorizer-codecov # optional
-        fail_ci_if_error: true # optional (default = false)
+        file: testResults/**/coverage.cobertura.xml
+        fail_ci_if_error: true
