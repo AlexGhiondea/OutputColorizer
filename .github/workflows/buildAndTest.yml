@@ -24,7 +24,10 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Generate code coverage
-      run: choco install opencover.portable
+      uses: crazy-max/ghaction-chocolatey@v1
+      with:
+        args: -h
+
     - uses: codecov/codecov-action@v1
       with:
         flags: unittests # optional
