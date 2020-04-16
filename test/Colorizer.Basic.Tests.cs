@@ -1,12 +1,13 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [Fact]
+
+        [Test]
         public void BasicTest()
         {
             Colorizer.WriteLine("[Red!Foo]");
@@ -14,7 +15,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Red, "Foo"));
         }
 
-        [Fact]
+        [Test]
         public void BasicTest2()
         {
             Colorizer.WriteLine("[Red!Foo] [Blue!Bar]");
@@ -24,7 +25,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Blue, "Bar"));
         }
 
-        [Fact]
+        [Test]
         public void BasicTest3()
         {
             Colorizer.WriteLine("Test");
@@ -32,7 +33,7 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Black, "Test"));
         }
 
-        [Fact]
+        [Test]
         public void BasicTest4()
         {
             Colorizer.WriteLine("Test [Green!Foo]");
@@ -41,7 +42,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Green, "Foo"));
         }
 
-        [Fact]
+        [Test]
         public void BasicTest5()
         {
             Colorizer.WriteLine("[Green!Foo] Test");
@@ -50,7 +51,7 @@ namespace UnitTests
                 new TextAndColor(ConsoleColor.Black, " Test"));
         }
 
-        [Fact]
+        [Test]
         public void BasicTest6()
         {
             Colorizer.Write("[Green!Foo] Test");

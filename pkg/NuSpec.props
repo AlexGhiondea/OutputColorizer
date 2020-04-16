@@ -7,10 +7,10 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/AlexGhiondea/OutputColorizer/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/AlexGhiondea/OutputColorizer</PackageProjectUrl>
     <PackageTags>Console, Color, Print, Write, WriteLine, Output, Colorizer</PackageTags>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <PackageVersion>1.1.0</PackageVersion>
-    <Version>1.1.0</Version>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <PackageVersion>1.2.0</PackageVersion>
+    <Version>1.2.0</Version>
     <PackageOutputPath>..\bin\$(Configuration)\</PackageOutputPath>
     <Description>Write colorful messages to the console using simple to use syntax</Description>
   </PropertyGroup>

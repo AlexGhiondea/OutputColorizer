@@ -1,12 +1,12 @@
 ﻿using System;
-using Xunit;
+using NUnit.Framework;
 using OutputColorizer;
 
 namespace UnitTests
 {
     public partial class ColorizerTests
     {
-        [Fact]
+        [Test]
         public void ProfileTest1()
         {
             Colorizer.WriteLine("[Green!{0}]", "one");

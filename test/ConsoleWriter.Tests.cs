@@ -1,34 +1,20 @@
-﻿using System;
-using Xunit;
+﻿using NUnit.Framework;
 using OutputColorizer;
+using System;
 using System.IO;
 
 namespace UnitTests
 {
     public partial class ConsoleWriterTests
     {
-        [Fact]
+        [Test]
         public void TestGetForegroundColor()
         {
             ConsoleWriter cw = new ConsoleWriter();
-            Assert.Equal(Console.ForegroundColor, cw.ForegroundColor);
+            Assert.AreEqual(Console.ForegroundColor, cw.ForegroundColor);
         }
 
-        [Fact]
-        public void TestSetForegroundColor()
-        {
-            ConsoleWriter cw = new ConsoleWriter();
-            ConsoleColor before = Console.ForegroundColor;
-
-            cw.ForegroundColor = ConsoleColor.Black;
-
-            Assert.Equal(Console.ForegroundColor, ConsoleColor.Black);
-
-            cw.ForegroundColor = before;
-            Assert.Equal(Console.ForegroundColor, before);
-        }
-
-        [Fact]
+        [Test]
         public void TestWrite()
         {
             ConsoleWriter cw = new ConsoleWriter();
@@ -38,10 +24,10 @@ namespace UnitTests
             cw.Write("test");
             cw.Write("bar");
 
-            Assert.Equal("testbar", tw.GetStringBuilder().ToString());
+            Assert.AreEqual("testbar", tw.GetStringBuilder().ToString());
         }
         
-        [Fact]
+        [Test]
         public void TestWriteLine()
         {
             ConsoleWriter cw = new ConsoleWriter();
@@ -51,7 +37,7 @@ namespace UnitTests
             cw.WriteLine("test2");
             cw.WriteLine("bar");
 
-            Assert.Equal("test2\nbar\n", tw.GetStringBuilder().ToString());
+            Assert.AreEqual($"test2{Environment.NewLine}bar{Environment.NewLine}", tw.GetStringBuilder().ToString());
         }
     }
 }
