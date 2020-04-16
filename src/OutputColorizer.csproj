@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- Import the NuSpec info about the package -->
-  <Import Project="..\pkg\nuspec.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\pkg\nuspec.props" />
 
   <PropertyGroup>
     <OutputType>library</OutputType>
