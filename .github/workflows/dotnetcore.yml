@@ -22,10 +22,10 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory:testResults
     - uses: codecov/codecov-action@v1
       with:
-        file: ./coverage.xml # optional
+        file: testResults/**/coverage.cobertura.xml # optional
         flags: unittests # optional
         name: outputcolorizer-codecov # optional
         fail_ci_if_error: true # optional (default = false)
