@@ -23,9 +23,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Generate code coverage
+      run: choco install opencover.portable
+    - name: Publish code coverage data
     - uses: codecov/codecov-action@v1
       with:
-        file: ./coverage.xml # optional
         flags: unittests # optional
         name: codecov-umbrella # optional
         fail_ci_if_error: true # optional (default = false)
