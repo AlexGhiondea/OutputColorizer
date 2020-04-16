@@ -15,20 +15,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestSetForegroundColor()
-        {
-            ConsoleWriter cw = new ConsoleWriter();
-            ConsoleColor before = Console.ForegroundColor;
-
-            cw.ForegroundColor = ConsoleColor.Black;
-
-            Assert.AreEqual(Console.ForegroundColor, ConsoleColor.Black);
-
-            cw.ForegroundColor = before;
-            Assert.AreEqual(Console.ForegroundColor, before);
-        }
-
-        [Test]
         public void TestWrite()
         {
             ConsoleWriter cw = new ConsoleWriter();
