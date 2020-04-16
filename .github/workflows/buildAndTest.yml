@@ -26,7 +26,7 @@ jobs:
     - name: Generate code coverage
       uses: crazy-max/ghaction-chocolatey@v1
       with:
-        args: -h
+        args: install opencover.portable
 
     - uses: codecov/codecov-action@v1
       with:
