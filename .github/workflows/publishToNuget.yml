@@ -28,4 +28,4 @@ jobs:
     - name: Create package
       run: dotnet pack --output Package
     - name: Publish package
-      run: dotnet nuget push Package\**\*.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k $NUGET_AUTH_TOKEN
+      run: dotnet nuget push Package\**\*.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k ${NUGET_AUTH_TOKEN}
