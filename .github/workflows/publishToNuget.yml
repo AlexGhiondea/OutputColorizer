@@ -17,8 +17,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.NUGET_AUTH_TOKEN}}
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -28,4 +26,4 @@ jobs:
     - name: Create package
       run: dotnet pack --output Package
     - name: Publish package
-      run: dotnet nuget push Package\**\*.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k ${NUGET_AUTH_TOKEN}
+      run: dotnet nuget push Package\**\*.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k ${{secrets.NUGET_AUTH_TOKEN}}
