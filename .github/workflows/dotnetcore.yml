@@ -1,4 +1,4 @@
-name: .NET Core
+name: Build And Test
 
 on:
   push:
@@ -22,4 +22,8 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal --collect:"Code Coverage"
+      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory:testResults
+    - uses: codecov/codecov-action@v1
+      with:
+        file: testResults/**/coverage.cobertura.xml
+        fail_ci_if_error: true
