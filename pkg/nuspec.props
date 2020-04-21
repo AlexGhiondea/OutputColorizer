@@ -2,16 +2,15 @@
   <PropertyGroup>
     <Authors>Alex Ghiondea</Authors>
     <Company />
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Product />
     <Copyright>Alex Ghiondea (c) 2020</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/AlexGhiondea/OutputColorizer</PackageProjectUrl>
     <PackageTags>Console, Color, Print, Write, WriteLine, Output, Colorizer</PackageTags>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
-    <PackageVersion>1.2.1</PackageVersion>
-    <Version>1.2.1</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
+    <PackageVersion>1.2.2</PackageVersion>
+    <Version>1.2.2</Version>
     <PackageOutputPath>..\bin\$(Configuration)\</PackageOutputPath>
     <Description>Write colorful messages to the console using simple to use syntax</Description>
   </PropertyGroup>
