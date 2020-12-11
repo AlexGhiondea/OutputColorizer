@@ -83,5 +83,11 @@ namespace UnitTests
         {
             Assert.Throws<ArgumentException>(() => Colorizer.WriteLine("[Yellow!{a}]"));
         }
+
+        [Test]
+        public void ErrorValidationTest14()
+        {
+            Assert.Throws<FormatException>(() => Colorizer.WriteLine("[NoColor"));
+        }
     }
 }

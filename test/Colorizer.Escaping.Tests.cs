@@ -108,5 +108,21 @@ namespace UnitTests
             Colorizer.WriteLine("[Yellow!{0}]", "[Serializable]");
             Validate(new TextAndColor(ConsoleColor.Yellow, "[Serializable]"));
         }
+
+        [Test]
+        public void EscapingTest12()
+        {
+            Colorizer.WriteLine("[NoColor]");
+            Validate(new TextAndColor(ConsoleColor.Black, "[NoColor]"));
+        }
+
+        [Test]
+        public void EscapingTest13()
+        {
+            Colorizer.WriteLine("[NoColor] [Red!Error]");
+            Validate(new TextAndColor(ConsoleColor.Black, "[NoColor]"),
+                new TextAndColor(ConsoleColor.Black, " "),
+                new TextAndColor(ConsoleColor.Red, "Error"));
+        }
     }
 }
