@@ -1,8 +1,5 @@
 ﻿using NUnit.Framework;
-using System.Diagnostics;
-using OutputColorizer;
-using System.Collections.Generic;
-using NUnit.Framework.Internal.Execution;
+using OutputColorizer.Format;
 using System;
 
 namespace UnitTests
@@ -51,7 +48,6 @@ namespace UnitTests
         {
             SequenceEqual(new Lexer(text), expectedSegments);
         }
-
 
         private void SequenceEqual(Lexer lx, params string[] elements)
         {

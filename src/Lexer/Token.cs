@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OutputColorizer
+namespace OutputColorizer.Format
 {
     public struct Token
     {

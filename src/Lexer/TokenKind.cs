@@ -1,4 +1,4 @@
-﻿namespace OutputColorizer
+﻿namespace OutputColorizer.Format
 {
     public enum TokenKind
     {

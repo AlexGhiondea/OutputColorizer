@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OutputColorizer.Format;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -92,13 +93,13 @@ namespace OutputColorizer
                             Token futureToken = tokens[currentTokenPosition + 1];
                             if (futureToken.Kind == TokenKind.ColorDelimiter)
                             {
-                                if (s_consoleColorMap.TryGetValue(lex.GetValue(currentToken), out ConsoleColor color))
-                                {
-                                    colors.Push(s_printer.ForegroundColor);
-                                    s_printer.ForegroundColor = color;
-                                    currentTokenPosition++;  // skip over the ! token
-                                    continue;
-                                }
+                                // We have verified that this color exists in the CheckFormat Code
+                                ConsoleColor color = s_consoleColorMap[lex.GetValue(currentToken)];
+
+                                colors.Push(s_printer.ForegroundColor);
+                                s_printer.ForegroundColor = color;
+                                currentTokenPosition++;  // skip over the ! token
+                                continue;
                             }
                             else if (futureToken.Kind == TokenKind.CloseBracket)
                             {
