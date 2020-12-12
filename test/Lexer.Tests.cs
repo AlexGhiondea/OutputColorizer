@@ -37,6 +37,12 @@ namespace UnitTests
             SequenceEqual(new Lexer(text), expectedSegments);
         }
 
+        [Test]
+        public void TestLexer2()
+        {
+            Assert.Throws<InvalidOperationException>(() => new Token('a', 0, 1));
+        }
+
         [TestCase("\\[[Green!Foo]\\]", "\\[", "[", "Green", "!", "Foo", "]", "\\]")]
         [TestCase("[Green!\\[Foo\\]]", "[", "Green", "!", "\\[Foo\\]", "]")]
         [TestCase("\\[[Green!\\[Foo\\]]\\]", "\\[", "[", "Green", "!", "\\[Foo\\]", "]", "\\]")]
