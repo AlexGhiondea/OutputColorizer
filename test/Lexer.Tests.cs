@@ -14,10 +14,10 @@ namespace UnitTests
         {
             Lexer lx = new Lexer("[Red!Foo]");
 
-            List<Token> tokens = lx.Tokenize();
+            Token[] tokens = lx.Tokenize();
 
             Assert.IsTrue(tokens[0].Kind == TokenKind.OpenBracket);
-            Assert.IsTrue(tokens[2].Kind == TokenKind.ExclamationPoint);
+            Assert.IsTrue(tokens[2].Kind == TokenKind.ColorDelimiter);
             Assert.IsTrue(tokens[4].Kind == TokenKind.CloseBracket);
 
             SequenceEqual(lx, "[", "Red", "!", "Foo", "]");
@@ -49,9 +49,9 @@ namespace UnitTests
 
         private void SequenceEqual(Lexer lx, params string[] elements)
         {
-            List<Token> tokens = lx.Tokenize();
+            Token[] tokens = lx.Tokenize();
 
-            for (int i = 0; i < tokens.Count; i++)
+            for (int i = 0; i < tokens.Length; i++)
             {
                 Assert.AreEqual(elements[i], lx.GetValue(tokens[i]));
             }

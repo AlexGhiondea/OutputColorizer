@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OutputColorizer
 {
-    public class Token
+    public struct Token
     {
         public Token(TokenKind kind, int start, int end)
         {
@@ -24,7 +24,7 @@ namespace OutputColorizer
                     kind = TokenKind.OpenBracket;
                     break;
                 case '!':
-                    kind = TokenKind.ExclamationPoint;
+                    kind = TokenKind.ColorDelimiter;
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -37,18 +37,5 @@ namespace OutputColorizer
         public TokenKind Kind { get; set; }
         public int Start { get; set; }
         public int End { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Kind}";
-        }
-    }
-
-    public enum TokenKind
-    {
-        OpenBracket,
-        CloseBracket,
-        ExclamationPoint,
-        String
     }
 }

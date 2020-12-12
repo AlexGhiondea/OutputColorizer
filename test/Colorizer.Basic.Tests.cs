@@ -59,5 +59,29 @@ namespace UnitTests
             Validate(new TextAndColor(ConsoleColor.Green, "Foo"),
                 new TextAndColor(ConsoleColor.Black, " Test"));
         }
+
+        [Test]
+        public void BasicTest7()
+        {
+            Colorizer.WriteLine("[Red]");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "[Red]"));
+        }
+
+        [Test]
+        public void BasicTest8()
+        {
+            Colorizer.WriteLine("[Red!]");
+
+            Validate();
+        }
+
+        [Test]
+        public void BasicTest9()
+        {
+            Colorizer.WriteLine("[]");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "[]"));
+        }
     }
 }

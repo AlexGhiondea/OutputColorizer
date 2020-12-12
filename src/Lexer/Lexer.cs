@@ -1,19 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OutputColorizer
 {
     public class Lexer
     {
-        private string Text;
+        private Token[] _tokens;
+
+        private readonly string Text;
+
         public Lexer(string text)
         {
             Text = text;
         }
 
-        public List<Token> Tokenize()
+        public Token[] Tokenize()
         {
+            if (_tokens != null)
+            {
+                return _tokens;
+            }
+
             List<Token> tokens = new List<Token>();
 
             int currentIndex = 0, previousTokenEnd = 0;
@@ -53,7 +62,8 @@ namespace OutputColorizer
                 tokens.Add(new Token(TokenKind.String, previousTokenEnd, Text.Length - 1));
             }
 
-            return tokens;
+            _tokens = tokens.ToArray();
+            return _tokens;
         }
 
         public string GetValue(Token token)

@@ -89,5 +89,13 @@ namespace UnitTests
         {
             Assert.Throws<FormatException>(() => Colorizer.WriteLine("[NoColor"));
         }
+
+
+        [Test]
+        public void ErrorValidationTest15()
+        {
+            Assert.Throws<FormatException>(() => Colorizer.WriteLine("[[]]"));
+        }
+        
     }
 }
