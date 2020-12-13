@@ -7,10 +7,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/AlexGhiondea/OutputColorizer</PackageProjectUrl>
     <PackageTags>Console, Color, Print, Write, WriteLine, Output, Colorizer</PackageTags>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
-    <PackageVersion>1.2.2</PackageVersion>
-    <Version>1.2.2</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Version>2.0.0</Version>
     <PackageOutputPath>..\bin\$(Configuration)\</PackageOutputPath>
     <Description>Write colorful messages to the console using simple to use syntax</Description>
   </PropertyGroup>
