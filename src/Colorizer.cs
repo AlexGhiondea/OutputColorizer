@@ -1,10 +1,12 @@
-﻿using System;
+﻿using OutputColorizer.Format;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace OutputColorizer
 {
     public static class Colorizer
+
     {
         private static IOutputWriter s_printer = new ConsoleWriter();
 
@@ -47,108 +49,107 @@ namespace OutputColorizer
         private static void InternalWrite(string message, object[] args)
         {
             Stack<ConsoleColor> colors = new Stack<ConsoleColor>();
-            Stack<int> parens = new Stack<int>();
-            int unbalancedParens = 0;
-            // intial state
-            parens.Push(-1);
 
-            Dictionary<string, int> argMap = CreateArgumentMap(message);
-            for (int i = 0; i < message.Length; i++)
+            Lexer lex = new Lexer(message);
+            Token[] tokens = lex.Tokenize();
+
+            CheckFormat(lex);
+
+            Dictionary<string, int> argMap = CreateArgumentMap(tokens, message);
+
+            for (int currentTokenPosition = 0; currentTokenPosition < tokens.Length; currentTokenPosition++)
             {
-                char currentChar = message[i];
+                Token currentToken = tokens[currentTokenPosition];
 
-                switch (currentChar)
+                switch (currentToken.Kind)
                 {
-                    case '\\':
+                    case TokenKind.String:
                         {
-                            // if we have an escaped character, continue.
-                            i++;
-                            continue;
+                            // write the text
+                            string content = RewriteString(argMap, lex.GetValue(currentToken), args);
+                            s_printer.Write(content);
+                            break;
                         }
-                    case '[':
+                    case TokenKind.CloseBracket:
                         {
-                            // When we encounter a '[' it means we are probably going to change the color
-                            // so we need to write what we had up to this point.
-
-                            // pop the location of the last paren from the stack
-                            // Write the message segment between the last paren and the current position
-                            int previousParenIndex = parens.Pop();
-                            WriteMessageSegment(message, args, argMap, previousParenIndex, i);
-
-                            // Given a string that looks like [color! extracts the color and pushes it on the stack of colors
-                            ParseColor(message, colors, ref i);
-
-                            // keep track of the latest parens that you saw
-                            unbalancedParens++;
-                            parens.Push(i);
-
-                            continue;
-                        }
-                    case ']':
-                        {
-                            // at this point, we know where the color ended.
-                            // Write the message segment between the last paren and the current position
-                            int matchingbracket = parens.Pop();
-                            WriteMessageSegment(message, args, argMap, matchingbracket, i);
-
-                            if (colors.Count == 0)
-                            {
-                                throw new FormatException($"Missing expected ']' ");
-                            }
                             s_printer.ForegroundColor = colors.Pop();
+                            break;
+                        }
+                    case TokenKind.ColorDelimiter:
+                        {
+                            s_printer.Write("!");
+                            break;
+                        }
+                    case TokenKind.OpenBracket:
+                        {
+                            currentTokenPosition++; // move to the next token, which should be a string token.
+                            currentToken = tokens[currentTokenPosition];
 
-                            parens.Push(i);
-                            unbalancedParens--;
-                            continue;
+                            // This case is []
+                            if (currentToken.Kind == TokenKind.CloseBracket)
+                            {
+                                string content = RewriteString(argMap, "\\[\\]", args);
+                                s_printer.Write(content);
+                                currentTokenPosition++;
+                                break;
+                            }
+
+                            // The token is not a close paren -- we should check and see what is the next parameter
+                            Token futureToken = tokens[currentTokenPosition + 1];
+                            if (futureToken.Kind == TokenKind.ColorDelimiter)
+                            {
+                                string colorName = lex.GetValue(currentToken);
+                                if (!s_consoleColorMap.TryGetValue(colorName, out ConsoleColor color))
+                                {
+                                    throw new ArgumentException($"Unknown color: {colorName}");
+                                }
+
+                                colors.Push(s_printer.ForegroundColor);
+                                s_printer.ForegroundColor = color;
+                                currentTokenPosition++;  // skip over the ! token
+                                continue;
+                            }
+                            else if (futureToken.Kind == TokenKind.CloseBracket)
+                            {
+                                // check to see if we have a matching closing bracket (this can be covered by the check up-top)
+                                // the user wanted to write the actual text '[noColor]'
+
+                                // construct an escaped string 
+                                string content = RewriteString(argMap, "\\[" + lex.GetValue(currentToken) + "\\]", args);
+                                s_printer.Write(content);
+                                currentTokenPosition++; // skip over the close bracket token
+                            }
+
+                            break;
                         }
                 }
             }
-
-            // at this point, the closing bracket might not have been found!
-            if (unbalancedParens != 0)
-            {
-                throw new FormatException($"Missing expected ']' ");
-            }
-
-            // write the last part, if any
-            int finalParen = parens.Pop();
-            WriteMessageSegment(message, args, argMap, finalParen, message.Length);
         }
 
-        private static void WriteMessageSegment(string message, object[] args, Dictionary<string, int> argMap, int startIndex, int currentIndex)
+        private static void CheckFormat(Lexer lex)
         {
-            // do we have anything to print?
-            if (currentIndex - startIndex - 1 > 0)
-            {
-                string messageSegment = message.Substring(startIndex + 1, currentIndex - startIndex - 1);
-                string content = RewriteString(argMap, messageSegment, args);
-                s_printer.Write(content);
-            }
-        }
+            Token[] tokens = lex.Tokenize();
 
-        private static void ParseColor(string message, Stack<ConsoleColor> colors, ref int currPos)
-        {
-            int textLength = message.Length;
-            // find the color
-            for (int pos = currPos + 1; pos < textLength; pos++)
+            int brackets = 0;
+            // check to see if the parens are balanced.
+            for (int i = 0; i < tokens.Length; i++)
             {
-                if (message[pos] == '!')
+                if (tokens[i].Kind == TokenKind.OpenBracket) brackets++;
+                if (tokens[i].Kind == TokenKind.CloseBracket) brackets--;
+
+                // To nest you need to specify a color
+                if (i > 0 && tokens[i].Kind == TokenKind.OpenBracket)
                 {
-                    string colorString = message.Substring(currPos + 1, pos - currPos - 1);
-                    ConsoleColor color;
-
-                    if (!s_consoleColorMap.TryGetValue(colorString, out color))
+                    if (tokens[i - 1].Kind == tokens[i].Kind)
                     {
-                        throw new ArgumentException($"Unknown color {colorString}");
+                        throw new FormatException($"Invalid format at position {tokens[i].Start}");
                     }
-
-                    colors.Push(s_printer.ForegroundColor);
-                    s_printer.ForegroundColor = color;
-
-                    // set the position of the last character
-                    currPos = pos;
-                    break;
                 }
+            }
+
+            if (brackets != 0)
+            {
+                throw new FormatException("Invalid format, unbalanced paranthesis in the string");
             }
         }
 
@@ -234,18 +235,31 @@ namespace OutputColorizer
             return string.Format(sb.ToString(), argument);
         }
 
-        private static Dictionary<string, int> CreateArgumentMap(string content)
+        private static Dictionary<string, int> CreateArgumentMap(Token[] tokens, string content)
         {
             Dictionary<string, int> map = new Dictionary<string, int>();
 
             int argCount = 0;
-            int textLength = content.Length;
-            for (int i = 0; i < textLength; i++)
+
+            foreach (Token tok in tokens)
             {
-                if (content[i] == '{')
+                // Skip over tokens that can't contain replacements.
+                if (tok.Kind != TokenKind.String)
                 {
+                    continue;
+                }
+
+                int tokenTextLength = tok.End + 1;
+
+                for (int i = tok.Start; i < tokenTextLength; i++)
+                {
+                    if (content[i] != '{')
+                    {
+                        continue;
+                    }
+
                     // '{' are escaped as '{{'
-                    if (i + 1 < textLength && content[i + 1] == '{')
+                    if (i + 1 < tokenTextLength && content[i + 1] == '{')
                     {
                         i++;
                         continue;
@@ -253,17 +267,14 @@ namespace OutputColorizer
 
                     // find the matching closing curly bracket
                     int pos = i;
-                    while (pos < textLength && content[pos++] != '}')
-                    {
-                    }
+                    while (pos < tokenTextLength && content[pos++] != '}') ;
 
                     if (content[pos - 1] != '}') // did not find matching '}'
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
 
                     string arg = content.Substring(i + 1, pos - i - 2);
 
-                    int x;
-                    if (!int.TryParse(arg, out x))
+                    if (!int.TryParse(arg, out int x))
                     {
                         throw new ArgumentException(string.Format("Could not parse '{0}'", content));
                     }
