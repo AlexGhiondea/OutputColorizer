@@ -83,5 +83,60 @@ namespace UnitTests
 
             Validate(new TextAndColor(ConsoleColor.Black, "[]"));
         }
+
+        [Test]
+        public void BasicTest10()
+        {
+            Colorizer.WriteLine("[Red!This] is an Error!");
+
+            Validate(new TextAndColor(ConsoleColor.Red, "This"),
+                new TextAndColor(ConsoleColor.Black, " is an Error"),
+                new TextAndColor(ConsoleColor.Black, "!"));
+        }
+
+        [Test]
+        public void BasicTest11()
+        {
+            Colorizer.WriteLine("[Red!This] [Green!is an Error!]");
+
+            Validate(new TextAndColor(ConsoleColor.Red, "This"),
+                new TextAndColor(ConsoleColor.Black, " "),
+                new TextAndColor(ConsoleColor.Green, "is an Error"),
+                new TextAndColor(ConsoleColor.Green, "!"));
+        }
+
+        [Test]
+        public void BasicTest12()
+        {
+            Colorizer.WriteLine("[Red!This!!!]");
+
+            Validate(new TextAndColor(ConsoleColor.Red, "This"),
+                new TextAndColor(ConsoleColor.Red, "!"),
+                new TextAndColor(ConsoleColor.Red, "!"),
+                new TextAndColor(ConsoleColor.Red, "!"));
+        }
+
+        [Test]
+        public void BasicTest13()
+        {
+            Colorizer.WriteLine("!! [Green!This] !!");
+
+            Validate(new TextAndColor(ConsoleColor.Black, "!"),
+                new TextAndColor(ConsoleColor.Black, "!"),
+                new TextAndColor(ConsoleColor.Black, " "),
+                new TextAndColor(ConsoleColor.Green, "This"),
+                new TextAndColor(ConsoleColor.Black, " "),
+                new TextAndColor(ConsoleColor.Black, "!"),
+                new TextAndColor(ConsoleColor.Black, "!"));
+        }
+
+        [Test]
+        public void BasicTest14()
+        {
+            Colorizer.WriteLine("[Green!!!]");
+
+            Validate(new TextAndColor(ConsoleColor.Green, "!"),
+                new TextAndColor(ConsoleColor.Green, "!"));
+        }
     }
 }

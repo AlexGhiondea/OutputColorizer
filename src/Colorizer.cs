@@ -75,6 +75,11 @@ namespace OutputColorizer
                             s_printer.ForegroundColor = colors.Pop();
                             break;
                         }
+                    case TokenKind.ColorDelimiter:
+                        {
+                            s_printer.Write("!");
+                            break;
+                        }
                     case TokenKind.OpenBracket:
                         {
                             currentTokenPosition++; // move to the next token, which should be a string token.
@@ -93,8 +98,11 @@ namespace OutputColorizer
                             Token futureToken = tokens[currentTokenPosition + 1];
                             if (futureToken.Kind == TokenKind.ColorDelimiter)
                             {
-                                // We have verified that this color exists in the CheckFormat Code
-                                ConsoleColor color = s_consoleColorMap[lex.GetValue(currentToken)];
+                                string colorName = lex.GetValue(currentToken);
+                                if (!s_consoleColorMap.TryGetValue(colorName, out ConsoleColor color))
+                                {
+                                    throw new ArgumentException($"Unknown color: {colorName}");
+                                }
 
                                 colors.Push(s_printer.ForegroundColor);
                                 s_printer.ForegroundColor = color;
@@ -135,15 +143,6 @@ namespace OutputColorizer
                     if (tokens[i - 1].Kind == tokens[i].Kind)
                     {
                         throw new FormatException($"Invalid format at position {tokens[i].Start}");
-                    }
-                }
-
-                if (tokens[i].Kind == TokenKind.ColorDelimiter && i > 1)
-                {
-                    string colorName = lex.GetValue(tokens[i - 1]);
-                    if (!s_consoleColorMap.ContainsKey(colorName))
-                    {
-                        throw new ArgumentException($"Unknown color: {colorName}");
                     }
                 }
             }
