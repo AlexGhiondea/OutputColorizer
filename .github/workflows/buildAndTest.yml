@@ -22,7 +22,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory:testResults
+      run: dotnet test --configuration Release --no-restore --verbosity normal --collect:"XPlat Code Coverage" --results-directory:testResults
     - uses: codecov/codecov-action@v1
       with:
         file: testResults/**/coverage.cobertura.xml
