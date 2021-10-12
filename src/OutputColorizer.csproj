@@ -14,5 +14,7 @@
 
   <PropertyGroup>
     <OutputPath>..\bin\$(Configuration)\</OutputPath>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)..\pkg\outputcolorizer.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
